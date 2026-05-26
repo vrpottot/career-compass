@@ -1,0 +1,92 @@
+.profession-card {
+    padding: 60px 40px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+    background: white;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 300px;
+}
+
+.profession-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Category-specific top accents */
+.profession-card.card-blue {
+    border-top: 4px solid var(--purple);
+}
+.profession-card.card-blue .profession-icon-wrapper {
+    color: var(--purple);
+}
+
+.profession-card.card-lime {
+    border-top: 4px solid var(--lime);
+}
+.profession-card.card-lime .profession-icon-wrapper {
+    color: var(--lime);
+}
+
+.profession-card.card-pink {
+    border-top: 4px solid var(--pink);
+}
+.profession-card.card-pink .profession-icon-wrapper {
+    color: var(--pink);
+}
+
+.profession-card.card-lilac {
+    border-top: 4px solid #8B5CF6;
+}
+.profession-card.card-lilac .profession-icon-wrapper {
+    color: #7C3AED;
+}
+
+.profession-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    margin-bottom: 32px;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.profession-card:hover .profession-icon-wrapper {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.profession-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: auto;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+}
+
+@media (max-width: 1024px) {
+    .profession-card {
+        padding: 40px 32px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .profession-card {
+        padding: 20px 16px;
+    }
+    .profession-card-title {
+        font-size: 1.2rem;
+    }
+    .profession-card-desc {
+        font-size: 0.9rem;
+    }
+}

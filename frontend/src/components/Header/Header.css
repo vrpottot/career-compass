@@ -1,0 +1,185 @@
+.header {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    min-width: 0;
+}
+
+/* Лого */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.logo-img {
+    height: 57px;
+}
+
+.logo-text h1 {
+    font-size: 1rem !important;
+    font-weight: 800;
+    margin: 0;
+    color: var(--purple);
+}
+
+.logo-text span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Десктоп меню */
+/* Десктоп навигация */
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #1f2937;           /* чисто чёрный / тёмно-серый */
+    font-weight: 500;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #4f46e5;          /* фиолетовый только при наведении */
+}
+
+/* Бургер кнопка */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1001;
+}
+
+.burger span {
+    height: 3px;
+    width: 100%;
+    background: var(--text-main);
+    border-radius: 3px;
+}
+
+/* МОБИЛЬНОЕ МЕНЮ — главное исправление */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+    padding-top: 80px;
+}
+
+.mobile-menu.open {
+    transform: translateY(0);
+    display: block;   /* или flex */
+}
+
+.mobile-nav {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 1.25rem;
+}
+
+.mobile-nav a {
+    padding: 12px 0;
+    color: var(--text-main);
+    text-decoration: none;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Адаптив */
+@media (max-width: 992px) {
+    .nav-links,
+    .auth-btn {
+        display: none;
+    }
+    .burger {
+        display: flex;
+    }
+}
+
+@media (max-width: 780px) {
+    .header-inner {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 8px 0;
+    }
+    .header-inner {
+        padding: 0 12px;
+    }
+    
+    .logo-text h1 {
+        font-size: 0.85rem !important;
+    }
+    .logo-text span {
+        font-size: 0.65rem;
+    }
+    .logo-img {
+        height: 42px;
+    }
+}
+
+/* Шапка мобильного меню */
+.mobile-menu-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.close-menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.close-menu-btn:hover {
+    background: #f1f5f9;
+}
+
+/* Улучшаем отступы в меню */
+.mobile-nav {
+    padding: 20px 24px;
+}
