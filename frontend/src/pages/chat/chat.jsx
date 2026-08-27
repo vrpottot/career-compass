@@ -282,7 +282,8 @@ function ChatPage({ user }) {
       });
 
       if (!response.ok) {
-        throw new Error('Ошибка сети при запросе к ассистенту');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Ошибка сети при запросе к ассистенту');
       }
 
       const data = await response.json();
@@ -299,7 +300,7 @@ function ChatPage({ user }) {
       const errorMessage = {
         id: Date.now().toString(),
         sender: 'bot',
-        text: 'Произошла ошибка при получении ответа от ИИ-ассистента. Пожалуйста, обратитесь к администратору за помощью или попробуйте снова позже.',
+        text: `Ошибка ИИ-ассистента: ${error.message}`,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, errorMessage]);

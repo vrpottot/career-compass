@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ error: 'Сообщение не передано' });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
         // Если ключ не задан, возвращаем подсказку
         return res.json({
@@ -53,23 +53,23 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        // Форматируем историю сообщений под Gemini API
-        const contents = [];
-        
+        // Форматируем историю под OpenAI-совместимый API OpenRouter
+        const messages = [];
+
         if (history && Array.isArray(history)) {
             history.forEach(msg => {
                 // Включаем все сообщения, включая приветственное, чтобы модель видела контекст
-                contents.push({
-                    role: msg.sender === 'user' ? 'user' : 'model',
-                    parts: [{ text: msg.text }]
+                messages.push({
+                    role: msg.sender === 'user' ? 'user' : 'assistant',
+                    content: msg.text
                 });
             });
         }
 
         // Добавляем текущий вопрос пользователя в конец
-        contents.push({
+        messages.push({
             role: 'user',
-            parts: [{ text: message }]
+            content: message
         });
 
         // Создаем динамический контекст о пользователе и его ЛК
@@ -125,27 +125,38 @@ router.post('/', async (req, res) => {
             }]
         };
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
+                'HTTP-Referer': 'http://localhost:5173',
+                'X-OpenRouter-Title': 'Career Compass'
             },
             body: JSON.stringify({
-                contents,
-                systemInstruction
+                model: process.env.OPENROUTER_MODEL || '~openai/gpt-latest',
+                messages: [
+                    { role: 'system', content: systemInstruction.parts[0].text },
+                    ...messages
+                ],
+                temperature: 0.7,
+                max_tokens: 1200
             })
         });
 
         if (!response.ok) {
             const errData = await response.json().catch(() => ({}));
-            console.error('Gemini API Error:', errData);
-            return res.status(500).json({ error: 'Ошибка при обращении к Gemini API' });
+            console.error('OpenRouter API Error:', errData);
+            const apiMessage = errData.error?.message;
+            return res.status(502).json({
+                error: apiMessage || 'Ошибка при обращении к OpenRouter API'
+            });
         }
 
         const data = await response.json();
         
         // Извлекаем текстовый ответ от модели
-        const botResponseText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Извините, не удалось сгенерировать ответ.';
+        const botResponseText = data.choices?.[0]?.message?.content || 'Извините, не удалось сгенерировать ответ.';
 
         // Очищаем ответ от нежелательных приветствий в начале сообщения перед отправкой пользователю
         const cleanedResponseText = cleanGreeting(botResponseText, userProfile?.name);
