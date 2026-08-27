@@ -269,7 +269,7 @@ function ChatPage({ user }) {
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/assistant', {
+      const response = await fetch('/api/assistant', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

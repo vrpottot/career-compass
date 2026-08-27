@@ -13,4 +13,9 @@ app.use('/api/professions', require('./routes/professions'));
 app.use('/api/progress', require('./routes/progress'));
 
 const PORT = 8000;
-app.listen(PORT, () => console.log(`Сервер запущен на http://localhost:${PORT}`));
+
+if (require.main === module) {
+	app.listen(PORT, () => console.log(`Сервер запущен на http://localhost:${PORT}`));
+}
+
+module.exports = app;
