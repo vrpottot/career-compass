@@ -56,7 +56,7 @@ career-compass/
 
 ### 1. Клонируем репозиторий
 ```
-git clone https://github.com/lekslar/career-compass
+https://github.com/vrpottot/career-compass
 cd career-compass
 ```
 ### 2. Устанавливаем зависимости
